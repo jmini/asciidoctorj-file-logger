@@ -1,0 +1,4 @@
+# AsciidoctorJ file-logger - 2019-09-04T11:10:32.126Z #
+{"fileName":"/tmp/file.adoc","lineStart":5,"message":"include file not found: /tmp/other.adoc","category":"Asciidoctor","severity":"ERROR"}
+{"fileName":"/tmp/file.adoc","lineStart":7,"message":"list item index: expected 1, got 8","category":"Asciidoctor","severity":"HIGH"}
+{"message":"skipping reference to missing attribute: bla","category":"Asciidoctor","severity":"HIGH"}

@@ -55,6 +55,8 @@ test {
 
 dependencies {
     implementation "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
+    implementation "fr.jmini.utils:issue-model:$issueModelVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"

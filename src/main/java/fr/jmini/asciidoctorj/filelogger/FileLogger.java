@@ -15,21 +15,43 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Instant;
 
 import org.asciidoctor.ast.Cursor;
 import org.asciidoctor.log.LogHandler;
 import org.asciidoctor.log.LogRecord;
 import org.asciidoctor.log.Severity;
 
+import com.google.gson.Gson;
+
+import fr.jmini.utils.issuemodel.Issue;
+
 public class FileLogger implements LogHandler {
 
-    @Override
-    public void log(LogRecord logRecord) {
+    private static Gson gson = new Gson();
+
+    public FileLogger() {
         Path path = Paths.get("build/asciidoctor.log");
         try {
             if (Files.notExists(path)) {
                 Files.createFile(path);
             }
+            String timestamp = Instant.now()
+                    .toString();
+            Files.write(path, getCommentHeader(timestamp).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static String getCommentHeader(String timestamp) {
+        return "# AsciidoctorJ file-logger - " + timestamp + " #\n";
+    }
+
+    @Override
+    public void log(LogRecord logRecord) {
+        Path path = Paths.get("build/asciidoctor.log");
+        try {
             Files.write(path, convertLog(logRecord).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,34 +59,32 @@ public class FileLogger implements LogHandler {
     }
 
     static String convertLog(LogRecord logRecord) {
+        Issue issue = new Issue();
+
         Cursor cursor = logRecord.getCursor();
-        String file;
-        int lineNumber;
-        if (cursor == null) {
-            file = "UNKNOWN";
-            lineNumber = 0;
-        } else {
-            file = cursor.getFile();
-            lineNumber = cursor.getLineNumber();
+        if (cursor != null) {
+            issue.setFileName(cursor.getFile());
+            issue.setLineStart(cursor.getLineNumber());
         }
-        String severity = mapSeverity(logRecord.getSeverity());
-        String message = logRecord.getMessage();
-        return file + "|" + lineNumber + "|" + severity + "|" + message + "\n";
+        issue.setSeverity(mapSeverity(logRecord.getSeverity()));
+        issue.setMessage(logRecord.getMessage());
+        issue.setCategory("Asciidoctor");
+        return gson.toJson(issue) + "\n";
     }
 
-    private static String mapSeverity(Severity severity) {
+    private static fr.jmini.utils.issuemodel.Severity mapSeverity(Severity severity) {
         switch (severity) {
         case DEBUG:
-            return "LOW";
+            return fr.jmini.utils.issuemodel.Severity.LOW;
         case INFO:
         case UNKNOWN:
-            return "NORMAL";
+            return fr.jmini.utils.issuemodel.Severity.NORMAL;
         case ERROR:
         case FATAL:
-            return "ERROR";
+            return fr.jmini.utils.issuemodel.Severity.ERROR;
         case WARN:
         default:
-            return "HIGH";
+            return fr.jmini.utils.issuemodel.Severity.HIGH;
         }
     }
 
