@@ -51,31 +51,7 @@ UNKNOWN|0|HIGH|skipping reference to missing attribute: bla
 
 === Integration with Jenkins
 
-You need to install the link:https://wiki.jenkins.io/x/1YTeCQ[Warnings Next Generation Plugin].
-
-In "Configure System" page of Jenkins, search for the "Groovy Based Warnings Parsers" section and create a new "Groovy Based Warnings Parsers" item:
-
-image:jenkins_configure.png[Groovy Based Warnings Parsers configuration]
-
-Configure the item with following values:
-
-* Name: `Asciidoctor Logs`
-* Id: `asciidoctor`
-* Regular Expression: `+(.*)\|(\d+)\|(.*)\|(.*)+`
-
-And following mapping script:
-
-.Groovy script to create log entries
-----
-import edu.hm.hafner.analysis.Severity
-return builder
-    .setFileName(matcher.group(1))
-    .setLineStart(Integer.parseInt(matcher.group(2)))
-    .setSeverity(Severity.valueOf(matcher.group(3)))
-    .setMessage(matcher.group(4))
-    .setCategory("Asciidoctor")
-    .buildOptional();
-----
+You need to install the link:https://wiki.jenkins.io/x/1YTeCQ[Warnings Next Generation Plugin] (tested with version `5.3.0`).
 
 In your build configuration, in the "Post-build Actions" section, add a "Record compiler warnings and static analysis results" item:
 
@@ -83,15 +59,16 @@ image:build_configure.png[Record compiler warnings and static analysis results c
 
 Configure the item with following values:
 
-* Tool: `Groovy Parser`
-* Parser: `Asciidoctor Logs`
-* Report File Pattern: `build/asciidoctor.log`
+* Tool: `Warnings Plugin Native Format`
+** Report File Pattern: `build/asciidoctor.log`
+** Custom ID: `asciidoctor` (optional)
+** Custom Name: `Asciidoctor Logs` (optional)
 
 Here the same configuration as Jenkins pipeline script:
 
 .Jenkins pipeline configuration
 ----
-recordIssues(tools: [groovyScript(parserId: 'asciidoctor', pattern: 'build/asciidoctor.log')])
+recordIssues(tools: [issues(id: 'asciidoctor', name: 'Asciidoctor Logs', pattern: 'build/asciidoctor.log')])
 ----
 
 == Source Code
