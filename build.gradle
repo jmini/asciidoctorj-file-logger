@@ -205,7 +205,7 @@ release {
 
 task doRelease {
     dependsOn(
-        'publishToNexus',
+        'publishToSonatype',
         'asciidoctor',
         'gitPublishPush'
     )
