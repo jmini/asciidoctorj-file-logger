@@ -44,9 +44,7 @@ The content of the `build/asciidoc.adoc` example can look like this:
 
 .Example content for the log file
 ----
-/tmp/file.adoc|5|ERROR|include file not found: /tmp/other.adoc
-/tmp/file.adoc|7|HIGH|list item index: expected 1, got 8
-UNKNOWN|0|HIGH|skipping reference to missing attribute: bla
+include::{rootdir}/src/test/resources/example-log.txt[]
 ----
 
 === Integration with Jenkins
