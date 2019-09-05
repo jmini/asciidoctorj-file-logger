@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Jeremie Bresson</span><br>
 <span id="revnumber">version 2.0.0,</span>
-<span id="revdate">2019-09-04</span>
+<span id="revdate">2019-09-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -588,9 +588,10 @@ For example the Jenkins <a href="https://wiki.jenkins.io/x/1YTeCQ">Warnings Next
 <div class="listingblock">
 <div class="title">Listing 2. Example content for the log file</div>
 <div class="content">
-<pre>/tmp/file.adoc|5|ERROR|include file not found: /tmp/other.adoc
-/tmp/file.adoc|7|HIGH|list item index: expected 1, got 8
-UNKNOWN|0|HIGH|skipping reference to missing attribute: bla</pre>
+<pre># AsciidoctorJ file-logger - 2019-09-04T11:10:32.126Z #
+{"fileName":"/tmp/file.adoc","lineStart":5,"message":"include file not found: /tmp/other.adoc","category":"Asciidoctor","severity":"ERROR"}
+{"fileName":"/tmp/file.adoc","lineStart":7,"message":"list item index: expected 1, got 8","category":"Asciidoctor","severity":"HIGH"}
+{"message":"skipping reference to missing attribute: bla","category":"Asciidoctor","severity":"HIGH"}</pre>
 </div>
 </div>
 </div>
@@ -759,7 +760,7 @@ ssh-add ~/.ssh/id_rsa</pre>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.0<br>
-Last updated 2019-09-04 14:31:42 +0200
+Last updated 2019-09-04 18:39:04 +0200
 </div>
 </div>
 <style>
