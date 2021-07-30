@@ -28,7 +28,9 @@ For example the Jenkins link:https://wiki.jenkins.io/x/1YTeCQ[Warnings Next Gene
 
 === AsciidoctorJ version
 
-The latest version of this extension is built and tested with version `{asciidoctorj-version}` of `org.asciidoctor:asciidoctorj`.
+This extension is compatible with `org.asciidoctor:asciidoctorj` in range `{asciidoctorj-version}`.
+
+The continuous integration server runs the test suite with different AsciidoctorJ versions within this range.
 
 == Usage
 

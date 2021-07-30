@@ -32,6 +32,7 @@ java {
 }
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
@@ -60,8 +61,10 @@ test {
     useJUnitPlatform()
 }
 
+def strictAsciidoctorjVersion = hasProperty('asciidoctorjVersion') ? '!!' + getProperty('asciidoctorjVersion') : ''
+
 dependencies {
-    implementation "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
+    implementation "org.asciidoctor:asciidoctorj:${asciidoctorjVersion}${strictAsciidoctorjVersion}"
     implementation "fr.jmini.utils:issue-model:$issueModelVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
 
@@ -108,6 +111,7 @@ publishing {
 nexusPublishing {
     repositories {
         sonatype {
+            packageGroup = 'fr.jmini'
             username = project.findProperty('sonatypeUser') ?: ''
             password = project.findProperty('sonatypePassword') ?: ''
         }
@@ -129,7 +133,7 @@ configurations {
 }
 
 asciidoctorj {
-    version = "$asciidoctorjVersion"
+    version = '2.2.0'
 }
 
 asciidoctor {
